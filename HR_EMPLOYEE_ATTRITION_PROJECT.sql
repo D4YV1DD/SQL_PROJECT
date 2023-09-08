@@ -62,7 +62,7 @@ SELECT
 FROM employee;
 
 /* how frequently an employee travels for business purpose  base on percent */
-
+DESCRIBE employee;
 SELECT 
 (SUM(BusinessTravel = 'Travel_Frequently') / COUNT(*)) * 100 AS Travel_Frequently,
 (SUM(BusinessTravel = 'Travel_Rarely') / COUNT(*)) * 100 as Travel_Rarely,
@@ -116,3 +116,28 @@ FROM employee
 GROUP BY  EmployeeNumber,PerformanceRating
 ORDER BY farthest_employee_base_on_km  DESC
 LIMIT 10;
+
+SELECT JobRole,
+	SUM(CASE WHEN attrition = 'yes' THEN 1 ),
+    SUM(CASE WHEN attrition = 'NO' THEN 0 )
+    END AS attrition_count
+FROM employee
+GROUP BY jobrole
+ORDER BY attrition_count DESC;
+
+SELECT jobrole,
+CASE
+WHEN attrition = 'no' THEN 0
+WHEN attrition = 'yes' THEN 1
+END AS total_attrition
+FROM employee
+GROUP BY jobrole;
+
+SELECT JobRole,
+    SUM(CASE WHEN attrition = 'yes' THEN 1 ELSE 0 END) AS attrition_yes_count,
+    SUM(CASE WHEN attrition = 'no' THEN 1 ELSE 0 END) AS attrition_no_count
+FROM employee
+GROUP BY JobRole
+ORDER BY attrition_yes_count DESC;
+
+
